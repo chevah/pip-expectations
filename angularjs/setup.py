@@ -10,11 +10,13 @@ import os
 import shutil
 
 NAME = 'chevah-weblibs-angularjs'
-VERSION = '1.1.2'
+MODULE_NAME = 'angularjs'
+VERSION = '1.1.3'
 CHEVAH_VERSION = '-chevah1'
+WEBSITE = 'http://angularjs.org/'
 
 BASE_URL = 'http://code.angularjs.org/%(version)s/'
-BASE_PATH = 'chevah/weblibs/angularjs/'
+BASE_PATH = 'chevah/weblibs/%s/' % (MODULE_NAME)
 FILES = [
     'angular.js',
     'angular.min.js',
@@ -27,13 +29,26 @@ FILES = [
     'angular-sanitize.js',
     'angular-sanitize.min.js',
     'angular-scenario.js',
-    'jstd-scenario-adapter-config.js',
-    'jstd-scenario-adapter.js',
     ]
+
+
+def add_version(name):
+    if name.endswith('.min.js'):
+        return name[:-7] + '-' + VERSION + '.min.js'
+    if name.endswith('.js'):
+        return name[:-3] + '-' + VERSION + '.js'
+    if name.endswith('.min.css'):
+        return name[:-8] + '-' + VERSION + '.min.css'
+    if name.endswith('.css'):
+        return name[:-4] + '-' + VERSION + '.css'
+    return name
+
 
 DOWNLOADS = []
 for filename in FILES:
-    DOWNLOADS.append((BASE_URL + filename, BASE_PATH + filename))
+    remote = (BASE_URL + filename) % {'version': VERSION}
+    local = add_version(BASE_PATH + filename)
+    DOWNLOADS.append((remote, local))
 
 
 def download():
@@ -42,9 +57,8 @@ def download():
     """
     import urllib2
     for remote, local in DOWNLOADS:
-        url = remote % {'version': VERSION}
-        print "Getting %s into %s" % (url, local)
-        mp3file = urllib2.urlopen(url)
+        print "Getting %s into %s" % (remote, local)
+        mp3file = urllib2.urlopen(remote)
         output = open(local, 'wb')
         output.write(mp3file.read())
         output.close()
@@ -101,23 +115,24 @@ def find_package_data(modules):
         result.update({
             module: [
                 '*.js',
+                '*.css',
                 ]})
     return result
 
 
 setup(
-    name='chevah-weblibs-angularjs',
+    name=NAME,
     version=VERSION + CHEVAH_VERSION,
     maintainer="Adi Roiban",
     maintainer_email="adi.roiban@chevah.com",
-    license='Same as AngularJS',
+    license='Same as ' + MODULE_NAME,
     platforms='any',
-    description='Files for AngularJS used in Chevah project.',
+    description='Files for %s used in Chevah project.' % (MODULE_NAME),
     long_description=open('README.rst').read(),
-    url='http://angularjs.org/',
+    url=WEBSITE,
     namespace_packages=['chevah', 'chevah.weblibs'],
-    packages=['chevah', 'chevah.weblibs', 'chevah.weblibs.angularjs'],
-    package_data=find_package_data(['chevah.weblibs.angularjs']),
+    packages=['chevah', 'chevah.weblibs', 'chevah.weblibs.' + MODULE_NAME],
+    package_data=find_package_data(['chevah.weblibs.' + MODULE_NAME]),
     cmdclass={
         'publish': PublishCommand,
         },
