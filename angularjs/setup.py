@@ -12,7 +12,7 @@ import shutil
 NAME = 'chevah-weblibs-angularjs'
 MODULE_NAME = 'angularjs'
 VERSION = '1.1.3'
-CHEVAH_VERSION = '-chevah1'
+CHEVAH_VERSION = '-chevah2'
 WEBSITE = 'http://angularjs.org/'
 
 BASE_URL = 'http://code.angularjs.org/%(version)s/'
@@ -123,9 +123,10 @@ def find_package_data(modules):
 setup(
     name=NAME,
     version=VERSION + CHEVAH_VERSION,
+    author='AngularJS Developers',
     maintainer="Adi Roiban",
     maintainer_email="adi.roiban@chevah.com",
-    license='Same as ' + MODULE_NAME,
+    license='MIT',
     platforms='any',
     description='Files for %s used in Chevah project.' % (MODULE_NAME),
     long_description=open('README.rst').read(),

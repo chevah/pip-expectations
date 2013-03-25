@@ -12,7 +12,7 @@ import shutil
 
 NAME = 'chevah-weblibs-json3'
 VERSION = '3.2.4'
-CHEVAH_VERSION = '-chevah1'
+CHEVAH_VERSION = '-chevah2'
 DOWNLOADS = [
     ('http://cdnjs.cloudflare.com/ajax/libs/json3/%(version)s/json3.min.js',
         'chevah/weblibs/json3/json3.min.js'),
@@ -91,9 +91,10 @@ def find_package_data(modules):
 setup(
     name=NAME,
     version=VERSION + CHEVAH_VERSION,
+    author='Kit Cambridge',
     maintainer="Adi Roiban",
     maintainer_email="adi.roiban@chevah.com",
-    license='Same as json3',
+    license='MIT',
     platforms='any',
     description='Files for json3 used in Chevah project.',
     long_description=open('README.rst').read(),

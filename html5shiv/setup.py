@@ -12,7 +12,7 @@ import shutil
 
 NAME = 'chevah-weblibs-html5shiv'
 VERSION = '3.6.2pre'
-CHEVAH_VERSION = '-chevah1'
+CHEVAH_VERSION = '-chevah2'
 DOWNLOADS = [
     ('https://raw.github.com/aFarkas/html5shiv/%(version)s/dist/html5shiv.js',
         'chevah/weblibs/html5shiv/html5shiv.min.js'),
@@ -91,9 +91,10 @@ def find_package_data(modules):
 setup(
     name=NAME,
     version=VERSION + CHEVAH_VERSION,
+    author='html5shiv Team',
     maintainer="Adi Roiban",
     maintainer_email="adi.roiban@chevah.com",
-    license='Same as html5shiv',
+    license='MIT',
     platforms='any',
     description='Files for html5shiv used in Chevah project.',
     long_description=open('README.rst').read(),

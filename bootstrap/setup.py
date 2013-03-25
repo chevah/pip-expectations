@@ -11,7 +11,7 @@ import shutil
 
 NAME = 'chevah-weblibs-bootstrap'
 VERSION = '2.2.2'
-CHEVAH_VERSION = '-chevah1'
+CHEVAH_VERSION = '-chevah2'
 
 
 class PublishCommand(Command):
@@ -70,9 +70,10 @@ def find_package_data(modules):
 setup(
     name=NAME,
     version=VERSION + CHEVAH_VERSION,
+    author='Bootstrap Team',
     maintainer="Adi Roiban",
     maintainer_email="adi.roiban@chevah.com",
-    license='Same as Twitter Bootstrap',
+    license='Apache 2.0',
     platforms='any',
     description='Files for Twitter Bootstrap used in Chevah project.',
     long_description=open('README.rst').read(),

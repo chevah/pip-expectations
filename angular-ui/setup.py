@@ -12,7 +12,7 @@ import shutil
 NAME = 'chevah-weblibs-angular-ui'
 MODULE_NAME = 'angular_ui'
 VERSION = '0.4.0'
-CHEVAH_VERSION = '-chevah1'
+CHEVAH_VERSION = '-chevah2'
 WEBSITE = 'http://angular-ui.github.com/'
 
 BASE_URL = (
@@ -118,9 +118,10 @@ def find_package_data(modules):
 setup(
     name=NAME,
     version=VERSION + CHEVAH_VERSION,
+    author='AngularUI Team',
     maintainer="Adi Roiban",
     maintainer_email="adi.roiban@chevah.com",
-    license='Same as ' + MODULE_NAME,
+    license='MIT',
     platforms='any',
     description='Files for %s used in Chevah project.' % (MODULE_NAME),
     long_description=open('README.rst').read(),

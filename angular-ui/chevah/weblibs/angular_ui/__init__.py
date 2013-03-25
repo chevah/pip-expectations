@@ -1,5 +1,5 @@
 """
-AngularJS files.
+Angular-UI files.
 """
 import os
 

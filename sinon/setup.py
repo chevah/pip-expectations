@@ -12,7 +12,7 @@ import shutil
 
 NAME = 'chevah-weblibs-sinon'
 VERSION = '1.5.2'
-CHEVAH_VERSION = '-chevah1'
+CHEVAH_VERSION = '-chevah2'
 DOWNLOADS = [
     ('http://sinonjs.org/releases/sinon-%(version)s.js',
         'chevah/weblibs/sinon/sinon.js'),
@@ -91,9 +91,10 @@ def find_package_data(modules):
 setup(
     name=NAME,
     version=VERSION + CHEVAH_VERSION,
+    author='Christian Johansen',
     maintainer="Adi Roiban",
     maintainer_email="adi.roiban@chevah.com",
-    license='Same as Sinon',
+    license='BSD',
     platforms='any',
     description='Files for Sinon used in Chevah project.',
     long_description=open('README.rst').read(),
