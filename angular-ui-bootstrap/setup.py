@@ -11,15 +11,15 @@ import shutil
 
 NAME = 'chevah-weblibs-angular-ui-bootstrap'
 MODULE_NAME = 'angular_ui_bootstrap'
-VERSION = '0.2.0'
-CHEVAH_VERSION = '-chevah2'
+VERSION = '0.3.0'
+CHEVAH_VERSION = '-chevah1'
 WEBSITE = 'http://angular-ui.github.com/bootstrap/'
 
 BASE_URL = 'https://raw.github.com/angular-ui/bootstrap/gh-pages/'
 BASE_PATH = 'chevah/weblibs/%s/' % (MODULE_NAME)
 FILES = [
-    'ui-bootstrap-tpls-0.2.0.min.js',
-    'ui-bootstrap-tpls-0.2.0.js',
+    'ui-bootstrap-tpls-0.3.0.min.js',
+    'ui-bootstrap-tpls-0.3.0.js',
     ]
 
 
