@@ -1,7 +1,5 @@
 """
-Python packaging definition for jQuery files.
-
-It downloads the minified file from jQuery website and creates a package.
+Python packaging definition for JQuery files.
 """
 
 from distutils import log
@@ -10,22 +8,41 @@ import os
 import shutil
 
 NAME = 'chevah-weblibs-jquery'
-VERSION = '1.8.3'
-CHEVAH_VERSION = '-chevah1'
-DOWNLOAD_URL = 'http://code.jquery.com/jquery-%(version)s.min.js'
-LOCAL_FILE = 'chevah/weblibs/jquery/jquery.min.js'
+MODULE_NAME = 'jquery'
+VERSION = '1.10.1'
+CHEVAH_VERSION = '-chevah2'
+WEBSITE = 'http://jquery.com/'
+AUTHOR = 'jQuery Foundation and other contributors'
+LICENSE = 'MIT'
+
+
+BASE_URL = (
+    'http://code.jquery.com/')
+BASE_PATH = 'chevah/weblibs/%s/' % (MODULE_NAME)
+FILES = [
+    'jquery-%s.js' % (VERSION),
+    'jquery-%s.min.js' % (VERSION),
+    ]
+
+
+DOWNLOADS = []
+for filename in FILES:
+    remote = (BASE_URL + filename) % {'version': VERSION}
+    local = BASE_PATH + filename
+    DOWNLOADS.append((remote, local))
 
 
 def download():
     """
-    Download minified JS file.
+    Download files.
     """
     import urllib2
-    url = DOWNLOAD_URL % {'version': VERSION}
-    mp3file = urllib2.urlopen(url)
-    output = open(LOCAL_FILE, 'wb')
-    output.write(mp3file.read())
-    output.close()
+    for remote, local in DOWNLOADS:
+        print "Getting %s into %s" % (remote, local)
+        mp3file = urllib2.urlopen(remote)
+        output = open(local, 'wb')
+        output.write(mp3file.read())
+        output.close()
 
 
 class PublishCommand(Command):
@@ -63,8 +80,9 @@ class PublishCommand(Command):
         upload_command.repository = u'chevah'
         self.run_command('upload')
 
-        # Delete temporary file downloaded only for building the package.
-        os.remove(LOCAL_FILE)
+        # Delete temporary files downloaded only for building the package.
+        for remote, local in DOWNLOADS:
+            os.remove(local)
 
 
 def find_package_data(modules):
@@ -78,6 +96,7 @@ def find_package_data(modules):
         result.update({
             module: [
                 '*.js',
+                '*.css',
                 ]})
     return result
 
@@ -85,16 +104,17 @@ def find_package_data(modules):
 setup(
     name=NAME,
     version=VERSION + CHEVAH_VERSION,
+    author=AUTHOR,
     maintainer="Adi Roiban",
     maintainer_email="adi.roiban@chevah.com",
-    license='Same as jQuery',
+    license=LICENSE,
     platforms='any',
-    description='Files for JQuery used in Chevah project.',
+    description='Files for %s used in Chevah project.' % (MODULE_NAME),
     long_description=open('README.rst').read(),
-    url='http://jquery.com/',
+    url=WEBSITE,
     namespace_packages=['chevah', 'chevah.weblibs'],
-    packages=['chevah', 'chevah.weblibs', 'chevah.weblibs.jquery'],
-    package_data=find_package_data(['chevah.weblibs.jquery']),
+    packages=['chevah', 'chevah.weblibs', 'chevah.weblibs.' + MODULE_NAME],
+    package_data=find_package_data(['chevah.weblibs.' + MODULE_NAME]),
     cmdclass={
         'publish': PublishCommand,
         },
