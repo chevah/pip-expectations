@@ -9,7 +9,7 @@ import shutil
 
 NAME = 'chevah-weblibs-angular-ui-select2'
 MODULE_NAME = 'angular_ui_select2'
-VERSION = 'cc3c52'
+VERSION = '23e0ad'
 CHEVAH_VERSION = '-chevah1'
 WEBSITE = 'https://github.com/angular-ui/ui-select2'
 AUTHOR = 'AngularUI'
@@ -112,7 +112,7 @@ def find_package_data(modules):
 
 setup(
     name=NAME,
-    version=VERSION + CHEVAH_VERSION,
+    version='0-' + VERSION + CHEVAH_VERSION,
     author=AUTHOR,
     maintainer="Adi Roiban",
     maintainer_email="adi.roiban@chevah.com",
