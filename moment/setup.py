@@ -11,15 +11,16 @@ import shutil
 
 NAME = 'chevah-weblibs-moment'
 MODULE_NAME = 'moment'
-VERSION = '2.0.0'
-CHEVAH_VERSION = '-chevah2'
+VERSION = '2.1.0'
+CHEVAH_VERSION = '-2'
 WEBSITE = 'http://momentjs.com/'
 
 BASE_URL = (
-    'https://raw.github.com/timrwood/moment/%(version)s/min/')
+    'https://raw.github.com/timrwood/moment/%(version)s/')
 BASE_PATH = 'chevah/weblibs/%s/' % (MODULE_NAME)
 FILES = [
-    'moment.min.js',
+    ('min/', 'moment.min.js'),
+    ('', 'moment.js'),
     ]
 
 
@@ -35,8 +36,8 @@ def add_version(name):
     return name
 
 DOWNLOADS = []
-for filename in FILES:
-    remote = (BASE_URL + filename) % {'version': VERSION}
+for (root, filename) in FILES:
+    remote = (BASE_URL + root + filename) % {'version': VERSION}
     local = add_version(BASE_PATH + filename)
     DOWNLOADS.append((remote, local))
 
