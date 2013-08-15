@@ -11,15 +11,17 @@ import shutil
 
 NAME = 'chevah-weblibs-angular-ui-bootstrap'
 MODULE_NAME = 'angular_ui_bootstrap'
-VERSION = '0.3.0'
-CHEVAH_VERSION = '-chevah1'
+VERSION = '0.5.0'
+CHEVAH_VERSION = '-1'
+AUTHOR = 'AngularUI Team'
 WEBSITE = 'http://angular-ui.github.com/bootstrap/'
+LICENSE = 'MIT'
 
 BASE_URL = 'https://raw.github.com/angular-ui/bootstrap/gh-pages/'
 BASE_PATH = 'chevah/weblibs/%s/' % (MODULE_NAME)
 FILES = [
-    'ui-bootstrap-tpls-0.3.0.min.js',
-    'ui-bootstrap-tpls-0.3.0.js',
+    'ui-bootstrap-tpls-%s.min.js' % (VERSION),
+    'ui-bootstrap-tpls-%s.js' % (VERSION),
     ]
 
 
@@ -113,10 +115,11 @@ def find_package_data(modules):
 setup(
     name=NAME,
     version=VERSION + CHEVAH_VERSION,
-    author='AngularUI Team',
+    author=AUTHOR,
+    author_email='hidden',
     maintainer="Adi Roiban",
     maintainer_email="adi.roiban@chevah.com",
-    license='MIT',
+    license=LICENSE,
     platforms='any',
     description='Files for %s used in Chevah project.' % (MODULE_NAME),
     long_description=open('README.rst').read(),
