@@ -11,8 +11,8 @@ import shutil
 
 NAME = 'chevah-weblibs-angularjs'
 MODULE_NAME = 'angularjs'
-VERSION = '1.1.3'
-CHEVAH_VERSION = '-chevah2'
+VERSION = '1.1.5'
+CHEVAH_VERSION = '-1'
 WEBSITE = 'http://angularjs.org/'
 
 BASE_URL = 'http://code.angularjs.org/%(version)s/'
@@ -20,8 +20,6 @@ BASE_PATH = 'chevah/weblibs/%s/' % (MODULE_NAME)
 FILES = [
     'angular.js',
     'angular.min.js',
-    'angular-bootstrap-prettify.min.js',
-    'angular-bootstrap.min.js',
     'angular-cookies.min.js',
     'angular-mocks.js',
     'angular-loader.min.js',
