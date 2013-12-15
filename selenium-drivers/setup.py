@@ -1,41 +1,16 @@
 """
-Python packaging definition for Selenium Standalone files.
+Python packaging definition for Selenium Drivers files.
 """
 from setuptools import setup, Command
 import os
 
-NAME = 'chevah-selenium-standalone'
-MODULE_NAME = 'selenium_standalone'
+NAME = 'chevah-selenium-drivers'
+MODULE_NAME = 'selenium_drivers'
 VERSION = '2.38.0'
 CHEVAH_VERSION = '-1'
 WEBSITE = 'http://docs.seleniumhq.org/'
 AUTHOR = 'Selenium Contributors'
 LICENSE = 'Apache 2.0'
-
-BASE_URL = 'http://selenium.googlecode.com/files/'
-BASE_PATH = 'chevah/%s/' % (MODULE_NAME)
-FILES = [
-    ('selenium-server-standalone-%(version)s.jar',
-        'selenium-server-standalone.jar'),
-    ]
-FILES = []
-
-DOWNLOADS = []
-for remote_filename, local_filename in FILES:
-    remote_filename = remote_filename % {'version': VERSION}
-    remote = BASE_URL + remote_filename
-    local = BASE_PATH + local_filename
-    DOWNLOADS.append((remote, local))
-
-
-def download():
-    """
-    Download files.
-    """
-    import urllib
-    for remote, local in DOWNLOADS:
-        print "Getting %s into %s" % (remote, local)
-        urllib.urlretrieve(remote, local)
 
 
 class PublishCommand(Command):
@@ -56,32 +31,11 @@ class PublishCommand(Command):
     def run(self):
         assert os.getcwd() == self.cwd, (
             'Must be in package root: %s' % self.cwd)
-        download()
         self.run_command('sdist')
         # Upload package to Chevah PyPi server.
         upload_command = self.distribution.get_command_obj('upload')
         upload_command.repository = u'chevah'
         self.run_command('upload')
-
-        # Delete temporary files downloaded only for building the package.
-        for remote, local in DOWNLOADS:
-            os.remove(local)
-
-
-def find_package_data(modules):
-    """
-    Returns the static dictionary of data files.
-
-    TODO: add dynamic code.
-    """
-    result = {}
-    for module in modules:
-        result.update({
-            module: [
-                '*.jar',
-                ]})
-    return result
-
 
 setup(
     name=NAME,
@@ -97,7 +51,13 @@ setup(
     url=WEBSITE,
     namespace_packages=['chevah'],
     packages=['chevah', 'chevah.' + MODULE_NAME],
-    package_data=find_package_data(['chevah.' + MODULE_NAME]),
+    scripts=[
+        'drivers/chromedriver-linux-32',
+        'drivers/chromedriver-linux-64',
+        'drivers/chromedriver-windows-32.exe',
+        'drivers/iedriver-windows-32.exe',
+        'drivers/iedriver-windows-64.exe',
+        ],
     cmdclass={
         'publish': PublishCommand,
         },
