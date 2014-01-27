@@ -2,15 +2,13 @@
 Python packaging definition for JQuery files.
 """
 
-from distutils import log
 from setuptools import setup, Command
 import os
-import shutil
 
 NAME = 'chevah-weblibs-jquery'
 MODULE_NAME = 'jquery'
-VERSION = '1.10.1'
-CHEVAH_VERSION = '-chevah2'
+VERSION = '1.10.2'
+CHEVAH_VERSION = '.c1'
 WEBSITE = 'http://jquery.com/'
 AUTHOR = 'jQuery Foundation and other contributors'
 LICENSE = 'MIT'
@@ -66,14 +64,7 @@ class PublishCommand(Command):
             'Must be in package root: %s' % self.cwd)
         download()
         self.run_command('sdist')
-        sdist_command = self.distribution.get_command_obj('sdist')
-        for archive in sdist_command.archive_files:
-            source = os.path.join(archive)
-            destination = os.path.expanduser(
-                self.destination_base + os.path.basename(archive))
-            shutil.copyfile(source, destination)
-        log.info(
-            "Distributables files copied to %s " % (self.destination_base))
+        self.distribution.get_command_obj('sdist')
 
         # Upload package to Chevah PyPi server.
         upload_command = self.distribution.get_command_obj('upload')
