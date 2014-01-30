@@ -2,15 +2,13 @@
 Python packaging definition for Select2 files.
 """
 
-from distutils import log
 from setuptools import setup, Command
 import os
-import shutil
 
 NAME = 'chevah-weblibs-angular-ui-utils'
 MODULE_NAME = 'angular_ui_utils'
 VERSION = '43a71'  # Actual 0.0.3.
-CHEVAH_VERSION = '-chevah1'
+CHEVAH_VERSION = '.c2'
 WEBSITE = 'https://github.com/angular-ui/ui-utils'
 AUTHOR = 'AngularUI'
 LICENSE = 'MIT'
@@ -78,15 +76,6 @@ class PublishCommand(Command):
             'Must be in package root: %s' % self.cwd)
         download()
         self.run_command('sdist')
-        sdist_command = self.distribution.get_command_obj('sdist')
-        for archive in sdist_command.archive_files:
-            source = os.path.join(archive)
-            destination = os.path.expanduser(
-                self.destination_base + os.path.basename(archive))
-            shutil.copyfile(source, destination)
-        log.info(
-            "Distributables files copied to %s " % (self.destination_base))
-
         # Upload package to Chevah PyPi server.
         upload_command = self.distribution.get_command_obj('upload')
         upload_command.repository = u'chevah'
