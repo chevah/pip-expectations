@@ -4,15 +4,13 @@ Python packaging definition for AngularJS files.
 It downloads the minified file from AngularJS website and creates a package.
 """
 
-from distutils import log
 from setuptools import setup, Command
 import os
-import shutil
 
 NAME = 'chevah-weblibs-angular-ui-bootstrap'
 MODULE_NAME = 'angular_ui_bootstrap'
 VERSION = '0.5.0'
-CHEVAH_VERSION = '-1'
+CHEVAH_VERSION = '.c2'
 AUTHOR = 'AngularUI Team'
 WEBSITE = 'http://angular-ui.github.com/bootstrap/'
 LICENSE = 'MIT'
@@ -77,15 +75,6 @@ class PublishCommand(Command):
             'Must be in package root: %s' % self.cwd)
         download()
         self.run_command('sdist')
-        sdist_command = self.distribution.get_command_obj('sdist')
-        for archive in sdist_command.archive_files:
-            source = os.path.join(archive)
-            destination = os.path.expanduser(
-                self.destination_base + os.path.basename(archive))
-            shutil.copyfile(source, destination)
-        log.info(
-            "Distributables files copied to %s " % (self.destination_base))
-
         # Upload package to Chevah PyPi server.
         upload_command = self.distribution.get_command_obj('upload')
         upload_command.repository = u'chevah'
