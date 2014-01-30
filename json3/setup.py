@@ -10,11 +10,23 @@ import os
 
 NAME = 'chevah-weblibs-json3'
 VERSION = '3.3.0'
-CHEVAH_VERSION = '.c1'
+CHEVAH_VERSION = '.c2'
 DOWNLOADS = [
     ('http://cdnjs.cloudflare.com/ajax/libs/json3/%(version)s/json3.min.js',
         'chevah/weblibs/json3/json3.min.js'),
     ]
+
+
+def add_version(name):
+    if name.endswith('.min.js'):
+        return name[:-7] + '-' + VERSION + '.min.js'
+    if name.endswith('.js'):
+        return name[:-3] + '-' + VERSION + '.js'
+    if name.endswith('.min.css'):
+        return name[:-8] + '-' + VERSION + '.min.css'
+    if name.endswith('.css'):
+        return name[:-4] + '-' + VERSION + '.css'
+    return name
 
 
 def download():
@@ -25,7 +37,7 @@ def download():
     for remote, local in DOWNLOADS:
         url = remote % {'version': VERSION}
         mp3file = urllib2.urlopen(url)
-        output = open(local, 'wb')
+        output = open(add_version(local), 'wb')
         output.write(mp3file.read())
         output.close()
 
@@ -58,7 +70,7 @@ class PublishCommand(Command):
 
         # Delete temporary file downloaded only for building the package.
         for remote, local in DOWNLOADS:
-            os.remove(local)
+            os.remove(add_version(local))
 
 
 def find_package_data(modules):
