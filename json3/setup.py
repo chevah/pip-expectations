@@ -5,14 +5,12 @@ It downloads the JS and CSS Files from upstream website
 and creates a package.
 """
 
-from distutils import log
 from setuptools import setup, Command
 import os
-import shutil
 
 NAME = 'chevah-weblibs-json3'
-VERSION = '3.2.4'
-CHEVAH_VERSION = '-chevah2'
+VERSION = '3.3.0'
+CHEVAH_VERSION = '.c1'
 DOWNLOADS = [
     ('http://cdnjs.cloudflare.com/ajax/libs/json3/%(version)s/json3.min.js',
         'chevah/weblibs/json3/json3.min.js'),
@@ -53,15 +51,6 @@ class PublishCommand(Command):
             'Must be in package root: %s' % self.cwd)
         download()
         self.run_command('sdist')
-        sdist_command = self.distribution.get_command_obj('sdist')
-        for archive in sdist_command.archive_files:
-            source = os.path.join(archive)
-            destination = os.path.expanduser(
-                self.destination_base + os.path.basename(archive))
-            shutil.copyfile(source, destination)
-        log.info(
-            "Distributables files copied to %s " % (self.destination_base))
-
         # Upload package to Chevah PyPi server.
         upload_command = self.distribution.get_command_obj('upload')
         upload_command.repository = u'chevah'
