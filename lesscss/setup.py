@@ -8,8 +8,8 @@ from setuptools import setup, Command
 import os
 
 NAME = 'chevah-weblibs-less'
-VERSION = '1.3.3'
-CHEVAH_VERSION = '.c2'
+VERSION = '1.6.3'
+CHEVAH_VERSION = '.c1'
 
 DOWNLOADS = [
     ('https://raw.github.com/cloudhead/less.js/master/dist/'
