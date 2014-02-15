@@ -4,14 +4,12 @@ Python packaging definition for LessCSS files.
 It downloads the minified file from LessCSS website and creates a package.
 """
 
-from distutils import log
 from setuptools import setup, Command
 import os
-import shutil
 
 NAME = 'chevah-weblibs-less'
 VERSION = '1.3.3'
-CHEVAH_VERSION = '-chevah1'
+CHEVAH_VERSION = '.c2'
 
 DOWNLOADS = [
     ('https://raw.github.com/cloudhead/less.js/master/dist/'
@@ -54,15 +52,6 @@ class PublishCommand(Command):
             'Must be in package root: %s' % self.cwd)
         download()
         self.run_command('sdist')
-        sdist_command = self.distribution.get_command_obj('sdist')
-        for archive in sdist_command.archive_files:
-            source = os.path.join(archive)
-            destination = os.path.expanduser(
-                self.destination_base + os.path.basename(archive))
-            shutil.copyfile(source, destination)
-        log.info(
-            "Distributables files copied to %s " % (self.destination_base))
-
         # Upload package to Chevah PyPi server.
         upload_command = self.distribution.get_command_obj('upload')
         upload_command.repository = u'chevah'
