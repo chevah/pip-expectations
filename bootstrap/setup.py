@@ -24,9 +24,14 @@ SOURCE_ZIP = 'tmp/bootstrap-%(version)s.zip' % {'version': VERSION}
 
 PACKAGE_FOLDER = 'chevah/weblibs/bootstrap/'
 
-TEMP_FOLDERS = ['tmp']
+TEMP_FOLDERS = []
 
 def download():
+    print 'Creating temporary folder'
+    base_temp = 'tmp'
+    os.mkdir(base_temp)
+    TEMP_FOLDERS.append(base_temp)
+
     download_file(DIST_URL, DIST_ZIP)
     download_file(SOURCE_URL, SOURCE_ZIP)
 
@@ -83,9 +88,9 @@ class PublishCommand(Command):
         download()
         self.run_command('sdist')
         # # Upload package to Chevah PyPi server.
-        # upload_command = self.distribution.get_command_obj('upload')
-        # upload_command.repository = u'chevah'
-        # self.run_command('upload')
+        upload_command = self.distribution.get_command_obj('upload')
+        upload_command.repository = u'chevah'
+        self.run_command('upload')
 
         # Delete temporary file downloaded only for building the package.
         print 'Removing temporary folders:'
