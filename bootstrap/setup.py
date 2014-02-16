@@ -1,15 +1,64 @@
 """
-Python packaging definition for AngularJS files.
-
-It downloads the minified file from AngularJS website and creates a package.
+Python packaging definition for Bootstrap files.
 """
-
 from setuptools import setup, Command
 import os
+import shutil
+import urllib2
+import zipfile
 
 NAME = 'chevah-weblibs-bootstrap'
-VERSION = '2.3.2'
+VERSION = '3.1.1'
 CHEVAH_VERSION = '.c1'
+DIST_URL = (
+    'https://github.com/twbs/bootstrap/releases/'
+    'download/v%(version)s/bootstrap-%(version)s-dist.zip') % {
+        'version': VERSION,
+        }
+SOURCE_URL = 'https://github.com/twbs/bootstrap/archive/v%(version)s.zip' % {
+    'version': VERSION,
+    }
+
+DIST_ZIP = 'tmp/bootstrap-%(version)s-dist.zip' % {'version': VERSION}
+SOURCE_ZIP = 'tmp/bootstrap-%(version)s.zip' % {'version': VERSION}
+
+PACKAGE_FOLDER = 'chevah/weblibs/bootstrap/'
+
+TEMP_FOLDERS = ['tmp']
+
+def download():
+    download_file(DIST_URL, DIST_ZIP)
+    download_file(SOURCE_URL, SOURCE_ZIP)
+
+    # Extract files.
+    with zipfile.ZipFile(DIST_ZIP, 'r') as zip_file:
+        zip_file.extractall('tmp/')
+    with zipfile.ZipFile(SOURCE_ZIP, 'r') as zip_file:
+        zip_file.extractall('tmp/')
+
+    # Copy distributable files.
+    source_base = 'tmp/bootstrap-%(version)s-dist' % {'version': VERSION}
+    for component in ['css', 'fonts', 'js']:
+        source = '%s/%s' % (source_base, component)
+        description = '%s/%s' % (PACKAGE_FOLDER, component)
+        TEMP_FOLDERS.append(description)
+        shutil.copytree(source, description)
+
+    # Copy files from source.
+    source_base = 'tmp/bootstrap-%(version)s' % {'version': VERSION}
+    for component in ['less']:
+        source = '%s/%s' % (source_base, component)
+        description = '%s/%s' % (PACKAGE_FOLDER, component)
+        TEMP_FOLDERS.append(description)
+        shutil.copytree(source, description)
+
+def download_file(url, path):
+    """Get a file from web."""
+    print "Downloading %s at %s" % (url, path)
+    remote_file = urllib2.urlopen(url)
+    output = open(path, 'wb')
+    output.write(remote_file.read())
+    output.close()
 
 
 class PublishCommand(Command):
@@ -31,13 +80,18 @@ class PublishCommand(Command):
     def run(self):
         assert os.getcwd() == self.cwd, (
             'Must be in package root: %s' % self.cwd)
+        download()
         self.run_command('sdist')
+        # # Upload package to Chevah PyPi server.
+        # upload_command = self.distribution.get_command_obj('upload')
+        # upload_command.repository = u'chevah'
+        # self.run_command('upload')
 
-        # Upload package to Chevah PyPi server.
-        upload_command = self.distribution.get_command_obj('upload')
-        upload_command.repository = u'chevah'
-        self.run_command('upload')
-
+        # Delete temporary file downloaded only for building the package.
+        print 'Removing temporary folders:'
+        for folder in TEMP_FOLDERS:
+            print folder
+            shutil.rmtree(folder)
 
 def find_package_data(modules):
     """
@@ -50,6 +104,7 @@ def find_package_data(modules):
         result.update({
             module: [
                 'css/*',
+                'fonsts/*',
                 'img/*',
                 'js/*',
                 'less/*',
