@@ -2,21 +2,19 @@
 Python packaging definition for ngTable files.
 """
 
-from distutils import log
 from setuptools import setup, Command
 import os
-import shutil
 
 NAME = 'chevah-weblibs-ng-table'
 MODULE_NAME = 'ng_table'
-VERSION = '67f083'
-CHEVAH_VERSION = '-1'
+VERSION = '3e35d40'  # 0.2.1 was a bad release for ng-table.
+CHEVAH_VERSION = '.c1'
 WEBSITE = 'http://esvit.github.io/ng-table/'
 AUTHOR = 'esvit'
 LICENSE = 'New BSD'
 
 BASE_URL = (
-    'https://raw.github.com/esvit/ng-table/%(version)s/')
+    'https://raw.github.com/chevah/ng-table/%(version)s/')
 BASE_PATH = 'chevah/weblibs/%s/' % (MODULE_NAME)
 FILES = [
     'ng-table.css',
@@ -77,14 +75,6 @@ class PublishCommand(Command):
             'Must be in package root: %s' % self.cwd)
         download()
         self.run_command('sdist')
-        sdist_command = self.distribution.get_command_obj('sdist')
-        for archive in sdist_command.archive_files:
-            source = os.path.join(archive)
-            destination = os.path.expanduser(
-                self.destination_base + os.path.basename(archive))
-            shutil.copyfile(source, destination)
-        log.info(
-            "Distributables files copied to %s " % (self.destination_base))
 
         # Upload package to Chevah PyPi server.
         upload_command = self.distribution.get_command_obj('upload')
@@ -117,7 +107,7 @@ def find_package_data(modules):
 
 setup(
     name=NAME,
-    version='0-' + VERSION + CHEVAH_VERSION,
+    version='0.' + VERSION + CHEVAH_VERSION,
     author=AUTHOR,
     author_email='hidden',
     maintainer="Adi Roiban",
