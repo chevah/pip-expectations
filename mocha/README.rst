@@ -1,4 +1,4 @@
 mocha-package
 =============
 
-Python Package for Mocha JS
+Python Package for Mocha JS.
