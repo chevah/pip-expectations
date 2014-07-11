@@ -7,7 +7,7 @@ import os
 
 NAME = 'chevah-weblibs-jquery'
 MODULE_NAME = 'jquery'
-VERSION = '1.10.2'
+VERSION = '1.11.1'
 CHEVAH_VERSION = '.c1'
 WEBSITE = 'http://jquery.com/'
 AUTHOR = 'jQuery Foundation and other contributors'
@@ -25,7 +25,7 @@ FILES = [
 
 DOWNLOADS = []
 for filename in FILES:
-    remote = (BASE_URL + filename) % {'version': VERSION}
+    remote = (BASE_URL + filename)
     local = BASE_PATH + filename
     DOWNLOADS.append((remote, local))
 
