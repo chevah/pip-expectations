@@ -4,15 +4,12 @@ Python packaging definition.
 It downloads the JS and CSS Files from upstream website
 and creates a package.
 """
-
-from distutils import log
 from setuptools import setup, Command
 import os
-import shutil
 
 NAME = 'chevah-weblibs-sinon'
 VERSION = '1.5.2'
-CHEVAH_VERSION = '-chevah2'
+CHEVAH_VERSION = '.c3'
 DOWNLOADS = [
     ('http://sinonjs.org/releases/sinon-%(version)s.js',
         'chevah/weblibs/sinon/sinon.js'),
@@ -43,7 +40,6 @@ class PublishCommand(Command):
 
     def initialize_options(self):
         self.cwd = None
-        self.destination_base = '~/chevah/brink/cache/pypi/'
 
     def finalize_options(self):
         self.cwd = os.getcwd()
@@ -53,14 +49,6 @@ class PublishCommand(Command):
             'Must be in package root: %s' % self.cwd)
         download()
         self.run_command('sdist')
-        sdist_command = self.distribution.get_command_obj('sdist')
-        for archive in sdist_command.archive_files:
-            source = os.path.join(archive)
-            destination = os.path.expanduser(
-                self.destination_base + os.path.basename(archive))
-            shutil.copyfile(source, destination)
-        log.info(
-            "Distributables files copied to %s " % (self.destination_base))
 
         # Upload package to Chevah PyPi server.
         upload_command = self.distribution.get_command_obj('upload')

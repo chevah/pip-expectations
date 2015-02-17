@@ -1,16 +1,13 @@
 """
 Python packaging definition for Select2 files.
 """
-
-from distutils import log
 from setuptools import setup, Command
 import os
-import shutil
 
 NAME = 'chevah-weblibs-angular-ui-select2'
 MODULE_NAME = 'angular_ui_select2'
 VERSION = '23e0ad'
-CHEVAH_VERSION = '-chevah1'
+CHEVAH_VERSION = '.c2'
 WEBSITE = 'https://github.com/angular-ui/ui-select2'
 AUTHOR = 'AngularUI'
 LICENSE = 'MIT'
@@ -65,7 +62,6 @@ class PublishCommand(Command):
 
     def initialize_options(self):
         self.cwd = None
-        self.destination_base = '~/chevah/brink/cache/pypi/'
 
     def finalize_options(self):
         self.cwd = os.getcwd()
@@ -75,14 +71,6 @@ class PublishCommand(Command):
             'Must be in package root: %s' % self.cwd)
         download()
         self.run_command('sdist')
-        sdist_command = self.distribution.get_command_obj('sdist')
-        for archive in sdist_command.archive_files:
-            source = os.path.join(archive)
-            destination = os.path.expanduser(
-                self.destination_base + os.path.basename(archive))
-            shutil.copyfile(source, destination)
-        log.info(
-            "Distributables files copied to %s " % (self.destination_base))
 
         # Upload package to Chevah PyPi server.
         upload_command = self.distribution.get_command_obj('upload')
@@ -112,7 +100,7 @@ def find_package_data(modules):
 
 setup(
     name=NAME,
-    version='0-' + VERSION + CHEVAH_VERSION,
+    version='0.' + VERSION + CHEVAH_VERSION,
     author=AUTHOR,
     maintainer="Adi Roiban",
     maintainer_email="adi.roiban@chevah.com",

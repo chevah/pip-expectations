@@ -2,15 +2,13 @@
 Python packaging definition for Select2 files.
 """
 
-from distutils import log
 from setuptools import setup, Command
 import os
-import shutil
 
 NAME = 'chevah-weblibs-select2'
 MODULE_NAME = 'select2'
 VERSION = '3.4.0'
-CHEVAH_VERSION = '-chevah2'
+CHEVAH_VERSION = '.c3'
 WEBSITE = 'http://ivaynberg.github.io/select2'
 AUTHOR = 'Igor Vaynberg'
 LICENSE = 'Apache License, Version 2.0'
@@ -80,14 +78,6 @@ class PublishCommand(Command):
             'Must be in package root: %s' % self.cwd)
         download()
         self.run_command('sdist')
-        sdist_command = self.distribution.get_command_obj('sdist')
-        for archive in sdist_command.archive_files:
-            source = os.path.join(archive)
-            destination = os.path.expanduser(
-                self.destination_base + os.path.basename(archive))
-            shutil.copyfile(source, destination)
-        log.info(
-            "Distributables files copied to %s " % (self.destination_base))
 
         # Upload package to Chevah PyPi server.
         upload_command = self.distribution.get_command_obj('upload')

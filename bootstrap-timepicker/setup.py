@@ -2,16 +2,14 @@
 Python packaging definition for one of the forks for
 Bootstrap datetime picker files.
 """
-
-from distutils import log
 from setuptools import setup, Command
 import os
-import shutil
 
 NAME = 'chevah-weblibs-bootstrap-timepicker'
 MODULE_NAME = 'bootstrap_timepicker'
+BASE_VERSION = '0.2.3'
 VERSION = '0.2.3-chevah'
-CHEVAH_VERSION = '-3'
+CHEVAH_VERSION = '.c4'
 WEBSITE = 'http://jdewit.github.io/bootstrap-timepicker/'
 AUTHOR = 'jdewit'
 LICENSE = 'MIT'
@@ -69,7 +67,6 @@ class PublishCommand(Command):
 
     def initialize_options(self):
         self.cwd = None
-        self.destination_base = '~/chevah/brink/cache/pypi/'
 
     def finalize_options(self):
         self.cwd = os.getcwd()
@@ -79,14 +76,6 @@ class PublishCommand(Command):
             'Must be in package root: %s' % self.cwd)
         download()
         self.run_command('sdist')
-        sdist_command = self.distribution.get_command_obj('sdist')
-        for archive in sdist_command.archive_files:
-            source = os.path.join(archive)
-            destination = os.path.expanduser(
-                self.destination_base + os.path.basename(archive))
-            shutil.copyfile(source, destination)
-        log.info(
-            "Distributables files copied to %s " % (self.destination_base))
 
         # Upload package to Chevah PyPi server.
         upload_command = self.distribution.get_command_obj('upload')
@@ -119,7 +108,7 @@ def find_package_data(modules):
 
 setup(
     name=NAME,
-    version=VERSION + CHEVAH_VERSION,
+    version=BASE_VERSION + CHEVAH_VERSION,
     author=AUTHOR,
     author_email='hidden',
     maintainer="Adi Roiban",
