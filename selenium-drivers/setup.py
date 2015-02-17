@@ -6,8 +6,8 @@ import os
 
 NAME = 'chevah-selenium-drivers'
 MODULE_NAME = 'selenium_drivers'
-VERSION = '2.39.0'  # ChromeDriver 2.8.
-CHEVAH_VERSION = '-1'
+VERSION = '2.44.0'  # ChromeDriver 2.14.
+CHEVAH_VERSION = '.c1'
 WEBSITE = 'http://docs.seleniumhq.org/'
 AUTHOR = 'Selenium Contributors'
 LICENSE = 'Apache 2.0'

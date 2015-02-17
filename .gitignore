@@ -1,4 +1,6 @@
 *.py[cod]
+selenium-drivers/drivers/chromedriver-*
+selenium-drivers/drivers/iedriver-*
 
 # C extensions
 *.so
