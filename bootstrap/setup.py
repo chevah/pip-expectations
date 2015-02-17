@@ -11,7 +11,7 @@ import shutil
 
 NAME = 'chevah-weblibs-bootstrap'
 VERSION = '2.2.2'
-CHEVAH_VERSION = '-chevah2'
+CHEVAH_VERSION = '.c3'
 
 
 class PublishCommand(Command):
