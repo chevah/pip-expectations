@@ -6,9 +6,10 @@ import os
 
 NAME = 'chevah-selenium-drivers'
 MODULE_NAME = 'selenium_drivers'
-# ChromeDriver 2.22.
-# IEDriver 2.53.1
-VERSION = '2.53.1'
+# ChromeDriver 2.30.
+# Firefox 0.18
+# The drivers version are following the Selenium version.
+VERSION = '3.4.1'
 CHEVAH_VERSION = '.chevah1'
 WEBSITE = 'http://docs.seleniumhq.org/'
 AUTHOR = 'Selenium Contributors'
@@ -54,11 +55,8 @@ setup(
     namespace_packages=['chevah'],
     packages=['chevah', 'chevah.' + MODULE_NAME],
     scripts=[
-        'drivers/chromedriver-linux-32',
         'drivers/chromedriver-linux-64',
-        'drivers/chromedriver-windows-32.exe',
-        'drivers/iedriver-windows-32.exe',
-        'drivers/iedriver-windows-64.exe',
+        'drivers/geckodriver-linux-64',
         ],
     cmdclass={
         'publish': PublishCommand,
