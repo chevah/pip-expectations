@@ -42,7 +42,7 @@ class PublishCommand(Command):
 
 setup(
     name=NAME,
-    version=VERSION + CHEVAH_VERSION,
+    version=VERSION,
     author=AUTHOR,
     author_email='hidden',
     maintainer="Adi Roiban",
