@@ -6,10 +6,10 @@ import os
 
 NAME = 'chevah-selenium-drivers'
 MODULE_NAME = 'selenium_drivers'
-# ChromeDriver 2.30.
-# Firefox 0.18
+# ChromeDriver 2.37.
+# Firefox 0.20
 # The drivers version are following the Selenium version.
-VERSION = '3.4.1'
+VERSION = '3.11.0'
 CHEVAH_VERSION = '.chevah1'
 WEBSITE = 'http://docs.seleniumhq.org/'
 AUTHOR = 'Selenium Contributors'
@@ -34,7 +34,7 @@ class PublishCommand(Command):
     def run(self):
         assert os.getcwd() == self.cwd, (
             'Must be in package root: %s' % self.cwd)
-        self.run_command('sdist')
+        self.run_command('bdist_wheel')
         # Upload package to Chevah PyPi server.
         upload_command = self.distribution.get_command_obj('upload')
         upload_command.repository = u'chevah'
