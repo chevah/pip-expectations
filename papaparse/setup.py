@@ -3,14 +3,17 @@ import os
 
 NAME = 'chevah-weblibs-papaparse'
 MODULE_NAME = 'papaparse'
-VERSION = '4.5.0'
+VERSION = '59e475e'
 CHEVAH_VERSION = '.chevah1'
 WEBSITE = 'http://papaparse.com/'
 AUTHOR = 'Papa Parse Team'
 LICENSE = 'MIT'
 
 BASE_URL = (
-    'https://raw.githubusercontent.com/mholt/PapaParse/%(version)s/')
+    # Upstream
+    #'https://raw.githubusercontent.com/chevah/PapaParse/%(version)s/'
+    'https://raw.githubusercontent.com/chevah/PapaParse/%(version)s/'
+    )
 BASE_PATH = 'chevah/weblibs/%s/' % (MODULE_NAME)
 FILES = [
     ('', 'papaparse.js'),
