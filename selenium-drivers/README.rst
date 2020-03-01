@@ -12,3 +12,6 @@ http://www.seleniumhq.org/download/ (The Internet Explorer Driver Server)
 
 Download Chrome drivers from
 https://sites.google.com/a/chromium.org/chromedriver/downloads
+
+Download Firefox drivers from
+https://github.com/mozilla/geckodriver/releases
