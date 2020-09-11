@@ -4,7 +4,7 @@ import os
 NAME = 'chevah-winsw'
 MODULE_NAME = 'winsw'
 VERSION = '2.5.0'
-CHEVAH_VERSION = '.chevah1'
+CHEVAH_VERSION = '.chevah3'
 WEBSITE = 'https://github.com/winsw/winsw/'
 AUTHOR = 'WinSw Team'
 LICENSE = 'MIT'
@@ -15,7 +15,7 @@ BASE_URL = (
     )
 
 remote = BASE_URL % {'version': VERSION}
-local = 'build/sftpplus-service.exe'
+local = 'build/sftpplus-service-manager.exe'
 
 
 def download():
@@ -84,7 +84,7 @@ setup(
     namespace_packages=['chevah'],
     packages=['chevah', 'chevah.' + MODULE_NAME],
     scripts=[
-        'build/sftpplus-service.exe',
+        'build/sftpplus-service-manager.exe',
         ],
     cmdclass={
         'publish': PublishCommand,
