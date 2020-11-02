@@ -1,19 +1,17 @@
-"""
-Python packaging definition for Selenium Drivers files.
-"""
+#
+# To update this, manually download the Win32 version from https://nssm.cc
+# Update the name using Resource Hacker http://angusj.com/resourcehacker/
+# Rename it to build/sftpplus-service-manager.exe
 from setuptools import setup, Command
 import os
 
-NAME = 'chevah-selenium-drivers'
-MODULE_NAME = b'selenium_drivers'
-# ChromeDriver 86.0.4240.22
-# Firefox 0.27.0
-# The drivers version are following the Selenium version.
-VERSION = '3.141.0'
-CHEVAH_VERSION = '.chevah4'
-WEBSITE = 'http://docs.seleniumhq.org/'
-AUTHOR = 'Selenium Contributors'
-LICENSE = 'Apache 2.0'
+NAME = 'chevah-nssm'
+MODULE_NAME = 'nssm'
+VERSION = '2.24.103'
+CHEVAH_VERSION = '.chevah1'
+WEBSITE = 'http://nssm.cc/'
+AUTHOR = 'NSSM Team'
+LICENSE = 'Public Domain'
 
 
 class PublishCommand(Command):
@@ -21,8 +19,6 @@ class PublishCommand(Command):
     Publish the source distribution to local pypi cache and remote
     Chevah PyPi server.
     """
-
-    description = "copy distributable to Chevah cache folder"
     user_options = []
 
     def initialize_options(self):
@@ -35,10 +31,23 @@ class PublishCommand(Command):
         assert os.getcwd() == self.cwd, (
             'Must be in package root: %s' % self.cwd)
         self.run_command('bdist_wheel')
+
         # Upload package to Chevah PyPi server.
         upload_command = self.distribution.get_command_obj('upload')
         upload_command.repository = u'chevah'
         self.run_command('upload')
+
+
+def find_package_data(modules):
+    """
+    Returns the static dictionary of data files.
+    """
+    result = {}
+    for module in modules:
+        result.update({
+            module: ['*.exe']})
+    return result
+
 
 setup(
     name=NAME,
@@ -53,10 +62,9 @@ setup(
     long_description=open('README.rst').read(),
     url=WEBSITE,
     namespace_packages=['chevah'],
-    packages=[b'chevah', b'chevah.' + MODULE_NAME],
+    packages=['chevah', 'chevah.' + MODULE_NAME],
     scripts=[
-        b'drivers/chromedriver-linux-64',
-        b'drivers/geckodriver-linux-64',
+        'build/sftpplus-service-manager.exe',
         ],
     cmdclass={
         'publish': PublishCommand,
