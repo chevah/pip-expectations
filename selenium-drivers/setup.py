@@ -6,11 +6,11 @@ import os
 
 NAME = 'chevah-selenium-drivers'
 MODULE_NAME = b'selenium_drivers'
-# ChromeDriver 88.0.4324.27
-# Firefox 0.28.0
+# ChromeDriver 91.0.4472.19
+# Firefox 0.29.1
 # The drivers version are following the Selenium version.
 VERSION = '3.141.0'
-CHEVAH_VERSION = '.chevah5'
+CHEVAH_VERSION = '.chevah6'
 WEBSITE = 'http://docs.seleniumhq.org/'
 AUTHOR = 'Selenium Contributors'
 LICENSE = 'Apache 2.0'
