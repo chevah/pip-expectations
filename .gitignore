@@ -3,6 +3,9 @@ selenium-drivers/drivers/chromedriver-*
 selenium-drivers/drivers/iedriver-*
 selenium-drivers/drivers/geckodriver-*
 
+# Any binaries
+*.exe
+
 # C extensions
 *.so
 

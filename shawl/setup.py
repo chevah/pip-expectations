@@ -1,41 +1,17 @@
 #
-# To update this, manually download the Win32 version from https://nssm.cc
-# Update the name using Resource Hacker http://angusj.com/resourcehacker/
-# Rename it to build/sftpplus-service-manager.exe
+# To update this, manually download the wanted released from
+# https://github.com/mtkennerly/shawl/releases
+# Then copy the file as shawl.exe inside chevah/shawl
 from setuptools import setup, Command
 import os
 
 NAME = 'chevah-shawl'
 MODULE_NAME = 'shawl'
-VERSION = '1.0.0'
-CHEVAH_VERSION = '+chevah1'
+VERSION = '1.1.0'
+CHEVAH_VERSION = '+chevah.1'
 WEBSITE = 'https://github.com/mtkennerly/shawl'
 AUTHOR = 'Matthew T. Kennerly'
 LICENSE = 'MIT'
-
-
-class PublishCommand(Command):
-    """
-    Publish the source distribution to local pypi cache and remote
-    Chevah PyPi server.
-    """
-    user_options = []
-
-    def initialize_options(self):
-        self.cwd = None
-
-    def finalize_options(self):
-        self.cwd = os.getcwd()
-
-    def run(self):
-        assert os.getcwd() == self.cwd, (
-            'Must be in package root: %s' % self.cwd)
-        self.run_command('bdist_wheel')
-
-        # Upload package to Chevah PyPi server.
-        upload_command = self.distribution.get_command_obj('upload')
-        upload_command.repository = u'chevah'
-        self.run_command('upload')
 
 
 def find_package_data(modules):
@@ -47,6 +23,8 @@ def find_package_data(modules):
         result.update({
             module: ['*.exe']})
     return result
+
+package_name = 'chevah.' + MODULE_NAME
 
 
 setup(
@@ -62,11 +40,7 @@ setup(
     long_description=open('README.rst').read(),
     url=WEBSITE,
     namespace_packages=['chevah'],
-    packages=['chevah', 'chevah.' + MODULE_NAME],
-    scripts=[
-        'build/sftpplus-service-shawl.exe',
-        ],
-    cmdclass={
-        'publish': PublishCommand,
-        },
+    packages=['chevah', package_name],
+    package_dir={package_name: 'chevah/' + MODULE_NAME},
+    package_data={package_name: ['*']},
     )
