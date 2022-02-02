@@ -1,18 +1,19 @@
 """
 Python packaging definition for Bootstrap files.
 """
+from __future__ import print_function
 from setuptools import setup, Command
 import os
 import shutil
 import urllib2
 import zipfile
+import ssl
 
 NAME = 'chevah-weblibs-bootstrap'
-VERSION = '3.1.1'
-CHEVAH_VERSION = '.c1'
+VERSION = '2.3.2'
+CHEVAH_VERSION = '+chevah.2'
 DIST_URL = (
-    'https://github.com/twbs/bootstrap/releases/'
-    'download/v%(version)s/bootstrap-%(version)s-dist.zip') % {
+    'https://getbootstrap.com/%(version)s/assets/bootstrap.zip') % {
         'version': VERSION,
         }
 SOURCE_URL = 'https://github.com/twbs/bootstrap/archive/v%(version)s.zip' % {
@@ -27,12 +28,12 @@ PACKAGE_FOLDER = 'chevah/weblibs/bootstrap/'
 TEMP_FOLDERS = []
 
 def download():
-    print 'Creating temporary folder'
+    print('Creating temporary folder')
     base_temp = 'tmp'
     os.mkdir(base_temp)
     TEMP_FOLDERS.append(base_temp)
 
-    download_file(DIST_URL, DIST_ZIP)
+    #download_file(DIST_URL, DIST_ZIP)
     download_file(SOURCE_URL, SOURCE_ZIP)
 
     # Extract files.
@@ -42,8 +43,8 @@ def download():
         zip_file.extractall('tmp/')
 
     # Copy distributable files.
-    source_base = 'tmp/bootstrap-%(version)s-dist' % {'version': VERSION}
-    for component in ['css', 'fonts', 'js']:
+    source_base = 'tmp/bootstrap' % {'version': VERSION}
+    for component in ['css', 'img', 'js']:
         source = '%s/%s' % (source_base, component)
         description = '%s/%s' % (PACKAGE_FOLDER, component)
         TEMP_FOLDERS.append(description)
@@ -57,10 +58,16 @@ def download():
         TEMP_FOLDERS.append(description)
         shutil.copytree(source, description)
 
+
+context = ssl.create_default_context()
+context.check_hostname = False
+context.verify_mode = ssl.CERT_NONE
+
+
 def download_file(url, path):
     """Get a file from web."""
-    print "Downloading %s at %s" % (url, path)
-    remote_file = urllib2.urlopen(url)
+    print("Downloading %s at %s" % (url, path))
+    remote_file = urllib2.urlopen(url, context=context)
     output = open(path, 'wb')
     output.write(remote_file.read())
     output.close()
@@ -86,16 +93,16 @@ class PublishCommand(Command):
         assert os.getcwd() == self.cwd, (
             'Must be in package root: %s' % self.cwd)
         download()
-        self.run_command('sdist')
+        self.run_command('bdist_wheel')
         # # Upload package to Chevah PyPi server.
         upload_command = self.distribution.get_command_obj('upload')
         upload_command.repository = u'chevah'
         self.run_command('upload')
 
         # Delete temporary file downloaded only for building the package.
-        print 'Removing temporary folders:'
+        print('Removing temporary folders:')
         for folder in TEMP_FOLDERS:
-            print folder
+            print(folder)
             shutil.rmtree(folder)
 
 def find_package_data(modules):

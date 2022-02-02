@@ -2,20 +2,22 @@
 Python packaging definition for one of the forks for
 Bootstrap datetime picker files.
 """
+from __future__ import print_function
 from setuptools import setup, Command
 import os
+import ssl
 
 NAME = 'chevah-weblibs-bootstrap-timepicker'
 MODULE_NAME = 'bootstrap_timepicker'
 BASE_VERSION = '0.2.3'
-VERSION = '0.2.3-chevah'
-CHEVAH_VERSION = '.c4'
+VERSION = '0.2.3'
+CHEVAH_VERSION = '+chevah.5'
 WEBSITE = 'http://jdewit.github.io/bootstrap-timepicker/'
 AUTHOR = 'jdewit'
 LICENSE = 'MIT'
 
 BASE_URL = (
-    'https://raw.github.com/chevah/bootstrap-timepicker/%(version)s/')
+    'https://raw.github.com/chevah/bootstrap-timepicker/%(version)s-chevah/')
 BASE_PATH = 'chevah/weblibs/%s/' % (MODULE_NAME)
 FILES = [
     ('js/', 'bootstrap-timepicker.js'),
@@ -43,14 +45,19 @@ for (remote_path, filename) in FILES:
     DOWNLOADS.append((remote, local))
 
 
+context = ssl.create_default_context()
+context.check_hostname = False
+context.verify_mode = ssl.CERT_NONE
+
+
 def download():
     """
     Download files.
     """
     import urllib2
     for remote, local in DOWNLOADS:
-        print "Getting %s into %s" % (remote, local)
-        mp3file = urllib2.urlopen(remote)
+        print("Getting %s into %s" % (remote, local))
+        mp3file = urllib2.urlopen(remote, context=context)
         output = open(local, 'wb')
         output.write(mp3file.read())
         output.close()

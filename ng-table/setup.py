@@ -1,14 +1,15 @@
 """
 Python packaging definition for ngTable files.
 """
-
+from __future__ import print_function
 from setuptools import setup, Command
 import os
+import ssl
 
 NAME = 'chevah-weblibs-ng-table'
 MODULE_NAME = 'ng_table'
 VERSION = '3e35d40'  # 0.2.1 was a bad release for ng-table.
-CHEVAH_VERSION = '.c1'
+CHEVAH_VERSION = '+chevah.1.'
 WEBSITE = 'http://esvit.github.io/ng-table/'
 AUTHOR = 'esvit'
 LICENSE = 'New BSD'
@@ -41,14 +42,19 @@ for filename in FILES:
     DOWNLOADS.append((remote, local))
 
 
+context = ssl.create_default_context()
+context.check_hostname = False
+context.verify_mode = ssl.CERT_NONE
+
+
 def download():
     """
     Download files.
     """
     import urllib2
     for remote, local in DOWNLOADS:
-        print "Getting %s into %s" % (remote, local)
-        mp3file = urllib2.urlopen(remote)
+        print("Getting %s into %s" % (remote, local))
+        mp3file = urllib2.urlopen(remote, context=context)
         output = open(local, 'wb')
         output.write(mp3file.read())
         output.close()
@@ -74,7 +80,7 @@ class PublishCommand(Command):
         assert os.getcwd() == self.cwd, (
             'Must be in package root: %s' % self.cwd)
         download()
-        self.run_command('sdist')
+        self.run_command('bdist_wheel')
 
         # Upload package to Chevah PyPi server.
         upload_command = self.distribution.get_command_obj('upload')
@@ -107,7 +113,7 @@ def find_package_data(modules):
 
 setup(
     name=NAME,
-    version='0.' + VERSION + CHEVAH_VERSION,
+    version='0.1' + CHEVAH_VERSION + VERSION,
     author=AUTHOR,
     author_email='hidden',
     maintainer="Adi Roiban",

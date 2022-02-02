@@ -1,17 +1,17 @@
+from __future__ import print_function
 from setuptools import setup, Command
 import os
+import ssl
 
 NAME = 'chevah-weblibs-papaparse'
 MODULE_NAME = 'papaparse'
-VERSION = '59e475e'
-CHEVAH_VERSION = '.chevah1'
+VERSION = '8fea01e'
+CHEVAH_VERSION = '+chevah.1.'
 WEBSITE = 'http://papaparse.com/'
 AUTHOR = 'Papa Parse Team'
 LICENSE = 'MIT'
 
 BASE_URL = (
-    # Upstream
-    #'https://raw.githubusercontent.com/chevah/PapaParse/%(version)s/'
     'https://raw.githubusercontent.com/chevah/PapaParse/%(version)s/'
     )
 BASE_PATH = 'chevah/weblibs/%s/' % (MODULE_NAME)
@@ -37,6 +37,10 @@ for (remote_path, filename) in FILES:
     local = add_version(BASE_PATH + filename)
     DOWNLOADS.append((remote, local))
 
+context = ssl.create_default_context()
+context.check_hostname = False
+context.verify_mode = ssl.CERT_NONE
+
 
 def download():
     """
@@ -44,8 +48,8 @@ def download():
     """
     import urllib2
     for remote, local in DOWNLOADS:
-        print "Getting %s into %s" % (remote, local)
-        mp3file = urllib2.urlopen(remote)
+        print("Getting %s into %s" % (remote, local))
+        mp3file = urllib2.urlopen(remote, context=context)
         output = open(local, 'wb')
         output.write(mp3file.read())
         output.close()
@@ -101,7 +105,7 @@ def find_package_data(modules):
 
 setup(
     name=NAME,
-    version=VERSION + CHEVAH_VERSION,
+    version='0.1' + CHEVAH_VERSION + VERSION,
     author=AUTHOR,
     author_email='hidden',
     maintainer="Adi Roiban",

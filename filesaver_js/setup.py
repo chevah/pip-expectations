@@ -1,12 +1,14 @@
+from __future__ import print_function
 from distutils import log
 from setuptools import setup, Command
 import os
 import shutil
+import ssl
 
 NAME = 'chevah-weblibs-filesaver-js'
 MODULE_NAME = 'filesaver_js'
 VERSION = '899ed1'
-CHEVAH_VERSION = '.c1'
+CHEVAH_VERSION = '+chevah.1.'
 WEBSITE = 'https://github.com/eligrey/FileSaver.js'
 AUTHOR = 'Eli Grey'
 LICENSE = 'MIT'
@@ -37,6 +39,10 @@ for filename in FILES:
     local = add_version(BASE_PATH + filename)
     DOWNLOADS.append((remote, local))
 
+context = ssl.create_default_context()
+context.check_hostname = False
+context.verify_mode = ssl.CERT_NONE
+
 
 def download():
     """
@@ -44,8 +50,8 @@ def download():
     """
     import urllib2
     for remote, local in DOWNLOADS:
-        print "Getting %s into %s" % (remote, local)
-        mp3file = urllib2.urlopen(remote)
+        print("Getting %s into %s" % (remote, local))
+        mp3file = urllib2.urlopen(remote, context=context)
         output = open(local, 'wb')
         output.write(mp3file.read())
         output.close()
@@ -70,7 +76,7 @@ class PublishCommand(Command):
         assert os.getcwd() == self.cwd, (
             'Must be in package root: %s' % self.cwd)
         download()
-        self.run_command('sdist')
+        self.run_command('bdist_wheel')
 
         # Upload package to Chevah PyPi server.
         upload_command = self.distribution.get_command_obj('upload')
@@ -100,7 +106,7 @@ def find_package_data(modules):
 
 setup(
     name=NAME,
-    version='0git.' + VERSION + CHEVAH_VERSION,
+    version='0.1' + CHEVAH_VERSION + VERSION,
     author=AUTHOR,
     maintainer="Adi Roiban",
     maintainer_email="adi.roiban@chevah.com",

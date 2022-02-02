@@ -4,16 +4,23 @@ Python packaging definition.
 It downloads the JS and CSS Files from upstream website
 and creates a package.
 """
+from __future__ import print_function
 from setuptools import setup, Command
 import os
+import ssl
 
 NAME = 'chevah-weblibs-sinon'
 VERSION = '1.5.2'
-CHEVAH_VERSION = '.c3'
+CHEVAH_VERSION = '+chevah.4'
 DOWNLOADS = [
     ('http://sinonjs.org/releases/sinon-%(version)s.js',
         'chevah/weblibs/sinon/sinon.js'),
     ]
+
+
+context = ssl.create_default_context()
+context.check_hostname = False
+context.verify_mode = ssl.CERT_NONE
 
 
 def download():
@@ -23,7 +30,7 @@ def download():
     import urllib2
     for remote, local in DOWNLOADS:
         url = remote % {'version': VERSION}
-        mp3file = urllib2.urlopen(url)
+        mp3file = urllib2.urlopen(url, context=context)
         output = open(local, 'wb')
         output.write(mp3file.read())
         output.close()
@@ -48,7 +55,7 @@ class PublishCommand(Command):
         assert os.getcwd() == self.cwd, (
             'Must be in package root: %s' % self.cwd)
         download()
-        self.run_command('sdist')
+        self.run_command('bdist_wheel')
 
         # Upload package to Chevah PyPi server.
         upload_command = self.distribution.get_command_obj('upload')

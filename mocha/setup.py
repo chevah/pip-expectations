@@ -4,13 +4,15 @@ Python packaging definition for Mocha files.
 It downloads the JS and CSS Files from Mocha GitHub website
 and creates a package.
 """
+from __future__ import print_function
 from setuptools import setup, Command
 import os
+import ssl
 
 NAME = 'chevah-weblibs-mocha'
 MODULE_NAME = 'mocha'
 VERSION = '1.18.2'
-CHEVAH_VERSION = '.c2'
+CHEVAH_VERSION = '+chevah.3'
 AUTHOR = 'Mocha Contributors'
 WEBSITE = 'http://visionmedia.github.io/mocha'
 LICENSE = 'MIT'
@@ -41,14 +43,18 @@ for filename in FILES:
     DOWNLOADS.append((remote, local))
 
 
+context = ssl.create_default_context()
+context.check_hostname = False
+context.verify_mode = ssl.CERT_NONE
+
 def download():
     """
     Download files.
     """
     import urllib2
     for remote, local in DOWNLOADS:
-        print "Getting %s into %s" % (remote, local)
-        mp3file = urllib2.urlopen(remote)
+        print("Getting %s into %s" % (remote, local))
+        mp3file = urllib2.urlopen(remote, context=context)
         output = open(local, 'wb')
         output.write(mp3file.read())
         output.close()
@@ -74,7 +80,7 @@ class PublishCommand(Command):
         assert os.getcwd() == self.cwd, (
             'Must be in package root: %s' % self.cwd)
         download()
-        self.run_command('sdist')
+        self.run_command('bdist_wheel')
         # Upload package to Chevah PyPi server.
         upload_command = self.distribution.get_command_obj('upload')
         upload_command.repository = u'chevah'

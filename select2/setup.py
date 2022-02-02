@@ -1,14 +1,15 @@
 """
 Python packaging definition for Select2 files.
 """
-
+from __future__ import print_function
 from setuptools import setup, Command
 import os
+import ssl
 
 NAME = 'chevah-weblibs-select2'
 MODULE_NAME = 'select2'
 VERSION = '3.4.0'
-CHEVAH_VERSION = '.c3'
+CHEVAH_VERSION = '+chevah.4'
 WEBSITE = 'http://ivaynberg.github.io/select2'
 AUTHOR = 'Igor Vaynberg'
 LICENSE = 'Apache License, Version 2.0'
@@ -43,6 +44,10 @@ for filename in FILES:
     local = add_version(BASE_PATH + filename)
     DOWNLOADS.append((remote, local))
 
+context = ssl.create_default_context()
+context.check_hostname = False
+context.verify_mode = ssl.CERT_NONE
+
 
 def download():
     """
@@ -50,8 +55,8 @@ def download():
     """
     import urllib2
     for remote, local in DOWNLOADS:
-        print "Getting %s into %s" % (remote, local)
-        mp3file = urllib2.urlopen(remote)
+        print("Getting %s into %s" % (remote, local))
+        mp3file = urllib2.urlopen(remote, context=context)
         output = open(local, 'wb')
         output.write(mp3file.read())
         output.close()
@@ -77,7 +82,7 @@ class PublishCommand(Command):
         assert os.getcwd() == self.cwd, (
             'Must be in package root: %s' % self.cwd)
         download()
-        self.run_command('sdist')
+        self.run_command('bdist_wheel')
 
         # Upload package to Chevah PyPi server.
         upload_command = self.distribution.get_command_obj('upload')

@@ -1,14 +1,15 @@
 """
 Python packaging definition for Select2 files.
 """
-
+from __future__ import print_function
 from setuptools import setup, Command
 import os
+import ssl
 
 NAME = 'chevah-weblibs-angular-ui-utils'
 MODULE_NAME = 'angular_ui_utils'
 VERSION = '43a71'  # Actual 0.0.3.
-CHEVAH_VERSION = '.c2'
+CHEVAH_VERSION = '+chevah.3.'
 WEBSITE = 'https://github.com/angular-ui/ui-utils'
 AUTHOR = 'AngularUI'
 LICENSE = 'MIT'
@@ -42,14 +43,19 @@ for filename in FILES:
     DOWNLOADS.append((remote, local))
 
 
+context = ssl.create_default_context()
+context.check_hostname = False
+context.verify_mode = ssl.CERT_NONE
+
+
 def download():
     """
     Download files.
     """
     import urllib2
     for remote, local in DOWNLOADS:
-        print "Getting %s into %s" % (remote, local)
-        mp3file = urllib2.urlopen(remote)
+        print("Getting %s into %s" % (remote, local))
+        mp3file = urllib2.urlopen(remote, context=context)
         output = open(local, 'wb')
         output.write(mp3file.read())
         output.close()
@@ -75,7 +81,7 @@ class PublishCommand(Command):
         assert os.getcwd() == self.cwd, (
             'Must be in package root: %s' % self.cwd)
         download()
-        self.run_command('sdist')
+        self.run_command('bdist_wheel')
         # Upload package to Chevah PyPi server.
         upload_command = self.distribution.get_command_obj('upload')
         upload_command.repository = u'chevah'
@@ -104,7 +110,7 @@ def find_package_data(modules):
 
 setup(
     name=NAME,
-    version=VERSION + CHEVAH_VERSION,
+    version= '0.0.3' + CHEVAH_VERSION + VERSION,
     author=AUTHOR,
     maintainer="Adi Roiban",
     maintainer_email="adi.roiban@chevah.com",

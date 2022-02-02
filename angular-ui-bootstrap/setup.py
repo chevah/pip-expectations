@@ -6,11 +6,12 @@ It downloads the minified file from AngularJS website and creates a package.
 
 from setuptools import setup, Command
 import os
+import ssl
 
 NAME = 'chevah-weblibs-angular-ui-bootstrap'
 MODULE_NAME = 'angular_ui_bootstrap'
 VERSION = '0.5.0'
-CHEVAH_VERSION = '.c2'
+CHEVAH_VERSION = '+chevah.3'
 AUTHOR = 'AngularUI Team'
 WEBSITE = 'http://angular-ui.github.com/bootstrap/'
 LICENSE = 'MIT'
@@ -34,11 +35,17 @@ def add_version(name):
         return name[:-4] + '-' + VERSION + '.css'
     return name
 
+
 DOWNLOADS = []
 for filename in FILES:
     remote = BASE_URL + filename
     local = BASE_PATH + filename
     DOWNLOADS.append((remote, local))
+
+
+context = ssl.create_default_context()
+context.check_hostname = False
+context.verify_mode = ssl.CERT_NONE
 
 
 def download():
@@ -48,7 +55,7 @@ def download():
     import urllib2
     for remote, local in DOWNLOADS:
         print "Getting %s into %s" % (remote, local)
-        mp3file = urllib2.urlopen(remote)
+        mp3file = urllib2.urlopen(remote, context=context)
         output = open(local, 'wb')
         output.write(mp3file.read())
         output.close()
@@ -74,7 +81,7 @@ class PublishCommand(Command):
         assert os.getcwd() == self.cwd, (
             'Must be in package root: %s' % self.cwd)
         download()
-        self.run_command('sdist')
+        self.run_command('bdist_wheel')
         # Upload package to Chevah PyPi server.
         upload_command = self.distribution.get_command_obj('upload')
         upload_command.repository = u'chevah'

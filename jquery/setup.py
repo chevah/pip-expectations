@@ -1,14 +1,15 @@
 """
 Python packaging definition for JQuery files.
 """
-
+from __future__ import print_function
 from setuptools import setup, Command
 import os
+import ssl
 
 NAME = 'chevah-weblibs-jquery'
 MODULE_NAME = 'jquery'
 VERSION = '1.11.1'
-CHEVAH_VERSION = '.c1'
+CHEVAH_VERSION = '+chevah.2'
 WEBSITE = 'http://jquery.com/'
 AUTHOR = 'jQuery Foundation and other contributors'
 LICENSE = 'MIT'
@@ -30,14 +31,19 @@ for filename in FILES:
     DOWNLOADS.append((remote, local))
 
 
+context = ssl.create_default_context()
+context.check_hostname = False
+context.verify_mode = ssl.CERT_NONE
+
+
 def download():
     """
     Download files.
     """
     import urllib2
     for remote, local in DOWNLOADS:
-        print "Getting %s into %s" % (remote, local)
-        mp3file = urllib2.urlopen(remote)
+        print("Getting %s into %s" % (remote, local))
+        mp3file = urllib2.urlopen(remote, context=context)
         output = open(local, 'wb')
         output.write(mp3file.read())
         output.close()
@@ -63,8 +69,8 @@ class PublishCommand(Command):
         assert os.getcwd() == self.cwd, (
             'Must be in package root: %s' % self.cwd)
         download()
-        self.run_command('sdist')
-        self.distribution.get_command_obj('sdist')
+        self.run_command('bdist_wheel')
+        self.distribution.get_command_obj('bdist_wheel')
 
         # Upload package to Chevah PyPi server.
         upload_command = self.distribution.get_command_obj('upload')
