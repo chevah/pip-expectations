@@ -8,7 +8,7 @@ import os
 NAME = 'chevah-shawl'
 MODULE_NAME = 'shawl'
 VERSION = '1.1.0'
-CHEVAH_VERSION = '+chevah.1'
+CHEVAH_VERSION = '+chevah.2'
 WEBSITE = 'https://github.com/mtkennerly/shawl'
 AUTHOR = 'Matthew T. Kennerly'
 LICENSE = 'MIT'
