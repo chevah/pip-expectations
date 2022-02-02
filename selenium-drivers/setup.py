@@ -1,44 +1,36 @@
 """
 Python packaging definition for Selenium Drivers files.
+
+Drivers need to be manually downloaded and extracted into the `drivers` folder
+and renamed as defined in setup.py.
+
+Download IE drivers from
+http://www.seleniumhq.org/download/ (The Internet Explorer Driver Server)
+
+Download Chrome drivers from
+https://sites.google.com/chromium.org/driver/
+
+Download Firefox drivers from
+https://github.com/mozilla/geckodriver/releases
+
+File names:
+* geckodriver-linux-64
+* chromedriver-linux-64
 """
 from setuptools import setup, Command
 import os
 
 NAME = 'chevah-selenium-drivers'
 MODULE_NAME = b'selenium_drivers'
-# ChromeDriver 91.0.4472.19
-# Firefox 0.29.1
+# ChromeDriver 98.0.4758.48
+# Firefox 0.30.0
 # The drivers version are following the Selenium version.
 VERSION = '3.141.0'
-CHEVAH_VERSION = '.chevah6'
+CHEVAH_VERSION = '+chevah.7'
 WEBSITE = 'http://docs.seleniumhq.org/'
 AUTHOR = 'Selenium Contributors'
 LICENSE = 'Apache 2.0'
 
-
-class PublishCommand(Command):
-    """
-    Publish the source distribution to local pypi cache and remote
-    Chevah PyPi server.
-    """
-
-    description = "copy distributable to Chevah cache folder"
-    user_options = []
-
-    def initialize_options(self):
-        self.cwd = None
-
-    def finalize_options(self):
-        self.cwd = os.getcwd()
-
-    def run(self):
-        assert os.getcwd() == self.cwd, (
-            'Must be in package root: %s' % self.cwd)
-        self.run_command('bdist_wheel')
-        # Upload package to Chevah PyPi server.
-        upload_command = self.distribution.get_command_obj('upload')
-        upload_command.repository = u'chevah'
-        self.run_command('upload')
 
 setup(
     name=NAME,
@@ -53,12 +45,7 @@ setup(
     long_description=open('README.rst').read(),
     url=WEBSITE,
     namespace_packages=['chevah'],
-    packages=[b'chevah', b'chevah.' + MODULE_NAME],
-    scripts=[
-        b'drivers/chromedriver-linux-64',
-        b'drivers/geckodriver-linux-64',
-        ],
-    cmdclass={
-        'publish': PublishCommand,
-        },
+    packages=['chevah', MODULE_NAME],
+    package_dir={MODULE_NAME: 'chevah/' + MODULE_NAME},
+    package_data={MODULE_NAME: ['*']},
     )
