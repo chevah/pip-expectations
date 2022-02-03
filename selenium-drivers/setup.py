@@ -21,12 +21,12 @@ from setuptools import setup, Command
 import os
 
 NAME = 'chevah-selenium-drivers'
-MODULE_NAME = b'selenium_drivers'
+MODULE_NAME = b'chevah_selenium_drivers'
 # ChromeDriver 98.0.4758.48
 # Firefox 0.30.0
 # The drivers version are following the Selenium version.
 VERSION = '3.141.0'
-CHEVAH_VERSION = '+chevah.7'
+CHEVAH_VERSION = '+chevah.8'
 WEBSITE = 'http://docs.seleniumhq.org/'
 AUTHOR = 'Selenium Contributors'
 LICENSE = 'Apache 2.0'
@@ -44,8 +44,7 @@ setup(
     description='Files for %s used in Chevah project.' % (MODULE_NAME),
     long_description=open('README.rst').read(),
     url=WEBSITE,
-    namespace_packages=['chevah'],
-    packages=['chevah', MODULE_NAME],
-    package_dir={MODULE_NAME: 'chevah/' + MODULE_NAME},
+    packages=[MODULE_NAME],
+    package_dir={MODULE_NAME: MODULE_NAME},
     package_data={MODULE_NAME: ['*']},
     )

@@ -1,4 +1,4 @@
 dist/
 *.egg-info/
 *.pyc
-chevah/selenium_drivers/*driver-linux-*
+chevah_selenium_drivers/*driver-linux-*
