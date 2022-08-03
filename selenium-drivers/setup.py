@@ -1,8 +1,8 @@
 """
 Python packaging definition for Selenium Drivers files.
 
-Drivers need to be manually downloaded and extracted into the `drivers` folder
-and renamed as defined in setup.py.
+Drivers need to be manually downloaded and extracted into the
+`chevah_selenium_drivers` folder and renamed as defined in setup.py.
 
 Download IE drivers from
 http://www.seleniumhq.org/download/ (The Internet Explorer Driver Server)
@@ -22,11 +22,11 @@ import os
 
 NAME = 'chevah-selenium-drivers'
 MODULE_NAME = b'chevah_selenium_drivers'
-# ChromeDriver 98.0.4758.48
-# Firefox 0.30.0
+# ChromeDriver 104.0.5112.79
+# Firefox 0.31.0
 # The drivers version are following the Selenium version.
 VERSION = '3.141.0'
-CHEVAH_VERSION = '+chevah.8'
+CHEVAH_VERSION = '+chevah.12'
 WEBSITE = 'http://docs.seleniumhq.org/'
 AUTHOR = 'Selenium Contributors'
 LICENSE = 'Apache 2.0'
