@@ -6,8 +6,8 @@ from setuptools import setup, Command
 
 NAME = 'chevah-geist'
 MODULE_NAME = 'chevah_geist'
-VERSION = '1.4.1'
-CHEVAH_VERSION = '+chevah.2'
+VERSION = '1.4.2'
+CHEVAH_VERSION = '+chevah.1'
 WEBSITE = 'https://github.com/vercel/geist-font/'
 AUTHOR = 'Vercel'
 LICENSE = 'OFL-1.1'
