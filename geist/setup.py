@@ -1,13 +1,13 @@
 #
 # To update this, manually download the wanted released from
-# https://github.com/mtkennerly/shawl/releases
-# Then copy the file as shawl.exe inside chevah/shawl
+# https://github.com/vercel/geist-font/ and copy them inside chevah_geist
+# directory.
 from setuptools import setup, Command
 
 NAME = 'chevah-geist'
 MODULE_NAME = 'chevah_geist'
 VERSION = '1.4.1'
-CHEVAH_VERSION = '+chevah.1'
+CHEVAH_VERSION = '+chevah.2'
 WEBSITE = 'https://github.com/vercel/geist-font/'
 AUTHOR = 'Vercel'
 LICENSE = 'OFL-1.1'
